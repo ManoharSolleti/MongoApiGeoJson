@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const UserSchema = new mongoose.Schema({
   name: String,
@@ -25,25 +26,19 @@ const UserSchema = new mongoose.Schema({
     city: String,
     state: String,
     pincode: String,
-    location: {
-      type: { type: String },
-      coordinates: [Number],
+  },
+  location: {
+    type: {
+      type: String,
+      enum: ['Point'],
     },
-    // location: {
-    //   type: {
-    //     type: String,
-    //     enum: ['Point'],
-    //     required: true,
-    //   },
-    //   coordinates: {
-    //     type: [Number],
-    //     required: true,
-    //     index: '2dsphere',
-    //   },
-    // },
+    coordinates: {
+      type: [Number],
+    },
   },
 });
 
+UserSchema.plugin(mongoosePaginate);
 UserSchema.index({ location: '2dsphere' });
 
 module.exports = mongoose.model('User', UserSchema);
