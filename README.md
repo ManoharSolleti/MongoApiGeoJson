@@ -1,12 +1,12 @@
-#This is a node, mongoose, mongodb REST API
+# This is a node, mongoose, mongodb REST API
 
-####Before starting the server, be sure to run `npm install` in the project folder.
+#### Before starting the server, be sure to run `npm install` in the project folder.
 
-###To start the server run the following command at the folder root. ###`npm start`
+### To start the server run the following command at the folder root. ###`npm start`
 
-###To start the server with nodemon run the following command at the folder root. ###`npm run dev`
+### To start the server with nodemon run the following command at the folder root. ###`npm run dev`
 
-##The following are the routes available in this api
+## The following are the routes available in this api
 
 | Route                                   | verb   | queries          | result                                            |
 | --------------------------------------- | ------ | ---------------- | ------------------------------------------------- |
