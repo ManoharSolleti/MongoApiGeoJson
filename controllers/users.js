@@ -4,33 +4,22 @@ const User = require('../models/User');
 // @route GET /api/v1/users
 // @access Public
 exports.getUsers = async (req, res, next) => {
+  //if user provides lat and long get user near the location
   if (req.query.long) {
     const long = req.query.long;
     const lat = req.query.lat;
-    User.aggregate(
-      [
-        {
-          $geoNear: {
-            near: {
-              type: 'Point',
-              coordinates: [long, lat],
-            },
-            distanceField: 'dist.calculated',
-            maxDistance: 2,
-            spherical: true,
-            key: 'location',
-          },
+    const users = await User.find({
+      location: {
+        $near: {
+          $geometry: { type: 'Point', coordinates: [long, lat] },
         },
-      ],
-      (err, data) => {
-        if (err) {
-          next(err);
-          return;
-        }
-        res.send(data);
-      }
-    );
-  } else if (req.query.page) {
+      },
+    });
+
+    res.send(users);
+  }
+  //if user provide page and perPage queries, send the paginated results
+  else if (req.query.page) {
     const customLabels = {
       limit: 'perPage',
       page: 'currentPage',
@@ -48,9 +37,11 @@ exports.getUsers = async (req, res, next) => {
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
-  } else {
+  }
+  //if user request a get command, send all users in descending order by created at
+  else {
     try {
-      const users = await User.find();
+      const users = await User.find().sort({ createdAt: 'descending' });
 
       return res.status(200).json({
         data: users,

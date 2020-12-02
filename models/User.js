@@ -30,15 +30,15 @@ const UserSchema = new mongoose.Schema({
   location: {
     type: {
       type: String,
-      enum: ['Point'],
+      enum: ['Point']
     },
     coordinates: {
       type: [Number],
+      index: '2dsphere'
     },
   },
 });
 
 UserSchema.plugin(mongoosePaginate);
-UserSchema.index({ location: '2dsphere' });
 
 module.exports = mongoose.model('User', UserSchema);
