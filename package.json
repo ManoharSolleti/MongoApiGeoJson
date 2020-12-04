@@ -1,5 +1,5 @@
 {
-  "name": "store_locator_api",
+  "name": "node_mongo_api",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
